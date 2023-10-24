@@ -29,20 +29,20 @@ function getUrlParameter(name) {
 }
 
 document.addEventListener('DOMContentLoaded', async function() {
-    // Retrieve username from URL parameter 'username'
+   
     const username = getUrlParameter('username');
     
-    // Retrieve email associated with the username from Firestore
+    
     const userDocRef = doc(db, "users", username);
     const userDocSnapshot = await getDoc(userDocRef);
     
     if (userDocSnapshot.exists()) {
-        // User document exists, get the email
+        
         const userEmail = userDocSnapshot.data().email;
-        // Fill the email input field with the retrieved email
+        
         document.getElementById('email').value = userEmail;
     } else {
-        // User not found, handle accordingly (e.g., show an error message)
+        
         console.error("User not found for username:", username);
     }
 });
@@ -68,13 +68,13 @@ document.getElementById("contactForm").addEventListener("submit", async function
         try {
             await setDoc(doc(db, "messages", userEmail + Date.now()), message);
             console.log("Message added to Firestore:", message);
-            // Redirect to home page or any other page after submitting the form
+            
             window.location.href = "/html/home.html?username=" + encodeURIComponent(username);
         } catch (error) {
             console.error("Error adding message to Firestore:", error);
         }
     } else {
-        // Handle the case where no radio button is checked
+        
         console.error("Please select a message type.");
     }
 });

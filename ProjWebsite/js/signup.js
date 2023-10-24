@@ -27,7 +27,7 @@ const storage = getStorage(app);
 
 document.getElementById("signupForm").addEventListener("submit", async function (event) {
     event.preventDefault();
-
+    const newsletterCheckbox = document.getElementById("newsletterCheckbox");
     const signupUsername = document.getElementById("signupUsername").value;
     const signupPassword = document.getElementById("signupPassword").value;
     const signupEmail = document.getElementById("signupEmail").value;
@@ -35,36 +35,32 @@ document.getElementById("signupForm").addEventListener("submit", async function 
 
     const usernameExists = await checkUsernameExists(signupUsername);
     if (!usernameExists) {
-        // Upload profile photo to Firebase Storage
+
     const storageRef = ref(storage, 'profilePhotos/' + signupUsername + '/' + profilePhoto.name);
     const uploadTask = uploadBytesResumable(storageRef, profilePhoto);
 
-
     uploadTask.on('state_changed', 
         (snapshot) => {
-       
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
         },
         (error) => {
-            // Handle errors during upload
             console.error('Error uploading file:', error);
         },
         async () => {
-            
+
             const photoUrl = await getDownloadURL(uploadTask.snapshot.ref);
 
-          
             await setDoc(doc(db, "users", signupUsername), {
                 username: signupUsername,
                 password: signupPassword,
                 email: signupEmail,
-                photoUrl: photoUrl 
+                photoUrl: photoUrl,
+                newsletter: newsletterCheckbox.checked
                 
             });
 
             console.log("Signup successful for user: " + signupUsername);
-   
             window.location.href = "/html/login.html";
         }
     );

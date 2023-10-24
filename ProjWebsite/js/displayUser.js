@@ -23,7 +23,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Function to get URL parameter by name
+
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -34,7 +34,7 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-// Get username from URL parameter
+
 
 
 async function displayUserData(username) {
@@ -45,13 +45,13 @@ async function displayUserData(username) {
         const userData = docSnap.data();
         const photoUrl = userData.photoUrl;
 
-        // Get profile picture download URL from storage
+       
         const downloadUrl = await getDownloadURL(ref(storage, photoUrl));
 
-        // Update user information on the page
+        
         document.getElementById("username").textContent = userData.username;
         document.getElementById("email").textContent = userData.email;
-        // document.getElementById("password").textContent = userData.password;
+        
         document.getElementById("password").textContent = "************";
 
         document.getElementById("profile-picture").src = downloadUrl;

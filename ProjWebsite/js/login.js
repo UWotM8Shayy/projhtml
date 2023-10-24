@@ -32,7 +32,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
 
     if (docSnap.exists() && docSnap.data().password === password) {
         console.log("Login successful! Welcome, " + username);
-        // Redirect the user to the dashboard or any other page after successful login
+
         window.location.href = "/html/home.html?username=" + encodeURIComponent(username);
     } else {
         console.log("Incorrect username or password. Please try again.");

@@ -23,7 +23,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Function to get URL parameter by name
+
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -34,19 +34,19 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-// Get username from URL parameter
+
 const username = getParameterByName('username');
 
-// Retrieve user object from the database
+
 const docRef = doc(db, "users", username);
 getDoc(docRef).then((docSnap) => {
     if (docSnap.exists()) {
         const userData = docSnap.data();
         const photoUrl = userData.photoUrl;
 
-        // Get profile picture download URL from storage
+    
         getDownloadURL(ref(storage, photoUrl)).then((downloadUrl) => {
-            // Update the website logo with the user's profile picture
+            
             const logoImg = document.querySelector(".logo-container img");
             logoImg.src = downloadUrl;
             logoImg.alt = "User Profile Picture";

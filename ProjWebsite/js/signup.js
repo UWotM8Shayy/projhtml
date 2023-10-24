@@ -39,10 +39,10 @@ document.getElementById("signupForm").addEventListener("submit", async function 
     const storageRef = ref(storage, 'profilePhotos/' + signupUsername + '/' + profilePhoto.name);
     const uploadTask = uploadBytesResumable(storageRef, profilePhoto);
 
-    // Listen for state changes and errors during the upload
+
     uploadTask.on('state_changed', 
         (snapshot) => {
-            // Handle progress (optional)
+       
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
         },
@@ -51,20 +51,20 @@ document.getElementById("signupForm").addEventListener("submit", async function 
             console.error('Error uploading file:', error);
         },
         async () => {
-            // Upload completed successfully, get download URL
+            
             const photoUrl = await getDownloadURL(uploadTask.snapshot.ref);
 
-            // Add user data including the photo URL to Firestore
+          
             await setDoc(doc(db, "users", signupUsername), {
                 username: signupUsername,
                 password: signupPassword,
                 email: signupEmail,
-                photoUrl: photoUrl // Store the download URL of the photo in the database
+                photoUrl: photoUrl 
                 
             });
 
             console.log("Signup successful for user: " + signupUsername);
-            // Redirect the user to the login page after successful signup
+   
             window.location.href = "/html/login.html";
         }
     );
